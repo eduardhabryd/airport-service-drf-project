@@ -34,6 +34,7 @@ class Flight(models.Model):
 	airplane = models.ForeignKey(Airplane, related_name="flights", on_delete=models.CASCADE)
 	departure_time = models.DateTimeField()
 	arrival_time = models.DateTimeField()
+	crew = models.ManyToManyField(Crew, related_name="flights")
 
 
 class Order(models.Model):
