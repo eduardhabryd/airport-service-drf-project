@@ -18,7 +18,17 @@ password: NeRQREDu6Bvs5Z
 
 ## Features
 
--
+- Anonim User:
+  - Can see Routes, Airports and Flights
+  - Can't create anything
+
+- Authenticated User:
+  - Can see Routes, Airports, Flights, his Orders and Tickets
+  - Can create orders
+
+- Admin User:
+  - Can see all instances
+  - Can create everything, also, update and delete everything except for Orders
 
 ## Demo
 
