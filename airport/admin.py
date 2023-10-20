@@ -1,14 +1,14 @@
 from django.contrib import admin
 
 from .models import (
-	Airport,
-	Route,
-	AirplaneType,
-	Airplane,
-	Crew,
-	Flight,
-	Order,
-	Ticket
+    Airport,
+    Route,
+    AirplaneType,
+    Airplane,
+    Crew,
+    Flight,
+    Order,
+    Ticket,
 )
 
 admin.site.register(Airport)

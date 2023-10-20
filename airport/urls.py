@@ -3,13 +3,13 @@ from django.urls import path, include
 from .routers import Router
 
 from airport.views import (
-	AirportViewSet,
-	RouteViewSet,
-	AirplaneTypeViewSet,
-	AirplaneViewSet,
-	CrewViewSet,
-	FlightViewSet,
-	OrderViewSet,
+    AirportViewSet,
+    RouteViewSet,
+    AirplaneTypeViewSet,
+    AirplaneViewSet,
+    CrewViewSet,
+    FlightViewSet,
+    OrderViewSet,
 )
 
 router = Router()

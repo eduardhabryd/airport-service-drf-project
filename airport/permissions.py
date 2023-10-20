@@ -15,8 +15,4 @@ class IsAdminOrIfAuthenticatedReadOnly(BasePermission):
 
 class AnonimUserPermissions(BasePermission):
     def has_permission(self, request, view):
-        return bool(
-            (
-                request.method in SAFE_METHODS
-            )
-        )
+        return bool((request.method in SAFE_METHODS))

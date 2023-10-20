@@ -10,47 +10,42 @@ from .airport_urls import *
 
 
 ALLOWED_URLS = [
-	AIRPORTS_URL,
-	ROUTES_URL,
-	FLIGHTS_URL,
-	ORDERS_URL,
+    AIRPORTS_URL,
+    ROUTES_URL,
+    FLIGHTS_URL,
+    ORDERS_URL,
 ]
 
-FORBIDDEN_URLS = [
-	AIRPLANE_TYPES_URL,
-	AIRPLANE_URL,
-	CREW_URL
-]
-
+FORBIDDEN_URLS = [AIRPLANE_TYPES_URL, AIRPLANE_URL, CREW_URL]
 
 
 class AuthAirportApiTestsForbiddenUrlsGet(TestCase):
-	def setUp(self):
-		self.client = APIClient()
-		self.user = get_user_model().objects.create_user(
-			"test@test.com",
-			"testpass",
-		)
-		self.client.force_authenticate(self.user)
-	
-	def test_auth_required(self):
-		for url in FORBIDDEN_URLS:
-			print(url)
-			res = self.client.get(url)
-			self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
+    def setUp(self):
+        self.client = APIClient()
+        self.user = get_user_model().objects.create_user(
+            "test@test.com",
+            "testpass",
+        )
+        self.client.force_authenticate(self.user)
+
+    def test_auth_required(self):
+        for url in FORBIDDEN_URLS:
+            print(url)
+            res = self.client.get(url)
+            self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
 
 class AuthAirportApiTestsAllowedUrlsGet(TestCase):
-	def setUp(self):
-		self.client = APIClient()
-		self.user = get_user_model().objects.create_user(
-			"test@test.com",
-			"testpass",
-		)
-		self.client.force_authenticate(self.user)
-	
-	def test_allowed(self):
-		for url in ALLOWED_URLS:
-			print(url)
-			res = self.client.get(url)
-			self.assertEqual(res.status_code, status.HTTP_200_OK)
+    def setUp(self):
+        self.client = APIClient()
+        self.user = get_user_model().objects.create_user(
+            "test@test.com",
+            "testpass",
+        )
+        self.client.force_authenticate(self.user)
+
+    def test_allowed(self):
+        for url in ALLOWED_URLS:
+            print(url)
+            res = self.client.get(url)
+            self.assertEqual(res.status_code, status.HTTP_200_OK)
