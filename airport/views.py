@@ -33,7 +33,6 @@ from airport.serializers import (
 	FlightDetailSerializer
 )
 
-
 class AirportViewSet(ModelViewSet):
 	queryset = Airport.objects.all()
 	serializer_class = AirportSerializer
@@ -48,7 +47,7 @@ class AirportViewSet(ModelViewSet):
 
 
 class RouteViewSet(ModelViewSet):
-	queryset = Route.objects.all()
+	queryset = Route.objects.select_related("source", "destination")
 	serializer_class = RouteSerializer
 	
 	def get_permissions(self):
@@ -85,7 +84,12 @@ class CrewViewSet(ModelViewSet):
 
 
 class FlightViewSet(ModelViewSet):
-	queryset = Flight.objects.all()
+	queryset = Flight.objects.select_related(
+		"route__source",
+		"route__destination",
+		"airplane"
+	).prefetch_related("crew")
+	
 	serializer_class = FlightSerializer
 	
 	def get_permissions(self):
@@ -105,6 +109,23 @@ class FlightViewSet(ModelViewSet):
 			return FlightDetailSerializer
 		
 		return self.serializer_class
+	
+	def get_queryset(self):
+		source = self.request.query_params.get("source")
+		destination = self.request.query_params.get("destination")
+		
+		queryset = self.queryset
+		
+		if source:
+			queryset = queryset.filter(route__source__closest_big_city__icontains=source
+			)
+		
+		if destination:
+			queryset = queryset.filter(
+				route__destination__closest_big_city__icontains=destination
+			)
+		
+		return queryset
 
 
 class OrderViewSet(
@@ -112,7 +133,11 @@ class OrderViewSet(
 	mixins.CreateModelMixin,
 	GenericViewSet,
 ):
-	queryset = Order.objects.all()
+	queryset = Order.objects.prefetch_related(
+		"tickets__flight",
+		"tickets__flight__route__source",
+		"tickets__flight__route__destination"
+	)
 	serializer_class = OrderSerializer
 	permission_classes = (IsAuthenticated,)
 	
