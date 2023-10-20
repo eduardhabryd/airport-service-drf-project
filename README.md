@@ -2,17 +2,31 @@
 
 Django REST Framework Project for Airport Service
 
-## Test Details
+## Installing via GitHub
+```shell
+git clone https://github.com/eduardhabryd/airport-service-drf-project.git
+cd airport-service-drf-project
+python -m venv venv
+source venv/bin/activate # or venv\Scripts\activate in Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py loaddata data.json # to load test data
+python manage.py runserver
+```
+
+## Access Details
 
 Test User:
 ```
 login: test@test.com
 password: test@test.com
-
 ```
 
-Test Data:
-```python manage.py loaddata data.json``` - to load test data
+- create user on the following endpoint:
+    - api/user/register/
+- get access token on the following endpoint:
+    - api/user/token
+
 
 ## Features
 
@@ -45,6 +59,14 @@ Test Data:
   - api/doc/swagger/
   - api/doc/redoc/
 
-## Demo
+- Filtering on source and destination for Flights
 
-![Website interface]()
+## Demo
+### Admin API Root
+![Admin API Root](admin_api_root_view.png)
+### Anonim API Root
+![Anonim API Root](anonim_api_root_view.png)
+### Authenticated API Root
+![Auth API Root](user_api_root_view.png)
+### Flight List
+![Flight List](flight_list.png)
