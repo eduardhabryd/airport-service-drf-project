@@ -36,10 +36,13 @@ from airport.serializers import (
     FlightDetailSerializer,
 )
 
+from airport.pagination import OrderPagination
+
 
 class AirportViewSet(ModelViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
+    pagination_class = OrderPagination
 
     def get_permissions(self):
         if self.request.user.is_anonymous:
@@ -57,6 +60,7 @@ class AirportViewSet(ModelViewSet):
 class RouteViewSet(ModelViewSet):
     queryset = Route.objects.select_related("source", "destination")
     serializer_class = RouteSerializer
+    pagination_class = OrderPagination
 
     def get_permissions(self):
         if self.request.user.is_anonymous:
@@ -80,18 +84,21 @@ class RouteViewSet(ModelViewSet):
 class AirplaneTypeViewSet(ModelViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
+    pagination_class = OrderPagination
     permission_classes = (IsAdminUser,)
 
 
 class AirplaneViewSet(ModelViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
+    pagination_class = OrderPagination
     permission_classes = (IsAdminUser,)
 
 
 class CrewViewSet(ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
+    pagination_class = OrderPagination
     permission_classes = (IsAdminUser,)
 
 
@@ -99,7 +106,7 @@ class FlightViewSet(ModelViewSet):
     queryset = Flight.objects.select_related(
         "route__source", "route__destination", "airplane"
     ).prefetch_related("crew")
-
+    pagination_class = OrderPagination
     serializer_class = FlightSerializer
 
     def get_permissions(self):
@@ -154,6 +161,7 @@ class OrderViewSet(
         "tickets__flight__route__destination",
     )
     serializer_class = OrderSerializer
+    pagination_class = OrderPagination
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
