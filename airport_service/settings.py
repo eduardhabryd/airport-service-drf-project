@@ -1,5 +1,10 @@
+import os
 from datetime import timedelta
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -56,12 +61,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "airport_service.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+
+def get_databases():
+    if os.getenv("DB_TYPE") == "postgres":
+        return {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "HOST": os.environ["POSTGRES_HOST"],
+                "NAME": os.environ["POSTGRES_DB"],
+                "USER": os.environ["POSTGRES_USER"],
+                "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+            }
+        }
+    return {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+
+
+DATABASES = get_databases()
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -117,3 +137,7 @@ INTERNAL_IPS = [
 
 
 AUTH_USER_MODEL = "user.User"
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = "/vol/web/media"
