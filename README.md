@@ -29,6 +29,7 @@ password: test@test.com
 
 
 ## Features
+___
 
 ### Users
 - Anonim User:
@@ -61,7 +62,12 @@ password: test@test.com
 
 - Filtering on source and destination for Flights
 
+## DB Structure:
+![DB Structure](db_structure.png)
+
+
 ## Demo
+___
 ### Admin API Root
 ![Admin API Root](admin_api_root_view.png)
 ### Anonim API Root
