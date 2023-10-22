@@ -156,6 +156,7 @@ class FlightViewSet(ModelViewSet):
 
 class OrderViewSet(
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
     mixins.CreateModelMixin,
     GenericViewSet,
 ):
