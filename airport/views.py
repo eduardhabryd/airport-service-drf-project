@@ -24,7 +24,8 @@ from airport.permissions import (
 
 from airport.serializers import (
     AirportSerializer,
-    RouteSerializer,
+    RouteListSerializer,
+    RouteDetailSerializer,
     AirplaneTypeSerializer,
     AirplaneSerializer,
     CrewSerializer,
@@ -59,7 +60,7 @@ class AirportViewSet(ModelViewSet):
 
 class RouteViewSet(ModelViewSet):
     queryset = Route.objects.select_related("source", "destination")
-    serializer_class = RouteSerializer
+    serializer_class = RouteListSerializer
     pagination_class = OrderPagination
 
     def get_permissions(self):
@@ -77,7 +78,10 @@ class RouteViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return RouteCreateSerializer
-
+        
+        if self.action == "retrieve":
+            return RouteDetailSerializer
+        
         return self.serializer_class
 
 

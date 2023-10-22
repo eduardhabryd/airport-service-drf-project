@@ -19,19 +19,25 @@ class AirportSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class RouteSerializer(serializers.ModelSerializer):
+class RouteDetailSerializer(serializers.ModelSerializer):
     source = AirportSerializer(many=False)
     destination = AirportSerializer(many=False)
 
     class Meta:
         model = Route
-        fields = "__all__"
+        fields = ("id", "source", "destination", "distance")
 
 
-class RouteFlightSerializer(serializers.ModelSerializer):
+class RouteListSerializer(serializers.ModelSerializer):
     source_city = serializers.StringRelatedField(read_only=True, source="source.closest_big_city")
     destination_city = serializers.StringRelatedField(read_only=True, source="destination.closest_big_city")
 
+    class Meta:
+        model = Route
+        fields = ("id", "source_city", "destination_city", "distance")
+
+   
+class RouteFlightSerializer(RouteListSerializer):
     class Meta:
         model = Route
         fields = ("source_city", "destination_city", "distance")
@@ -99,7 +105,7 @@ class TicketSeatsSerializer(serializers.ModelSerializer):
 
 class FlightDetailSerializer(serializers.ModelSerializer):
     airplane = AirplaneSerializer(many=False)
-    route = RouteSerializer(many=False)
+    route = RouteDetailSerializer(many=False)
     taken_places = TicketSeatsSerializer(
         source="tickets", many=True, read_only=True
     )
