@@ -28,6 +28,15 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class RouteFlightSerializer(serializers.ModelSerializer):
+    source_city = serializers.StringRelatedField(read_only=True, source="source.closest_big_city")
+    destination_city = serializers.StringRelatedField(read_only=True, source="destination.closest_big_city")
+
+    class Meta:
+        model = Route
+        fields = ("source_city", "destination_city", "distance")
+
+
 class RouteCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
@@ -51,21 +60,35 @@ class AirplaneSerializer(serializers.ModelSerializer):
             "airplane_type",
             "capacity",
         )
+        
+class AirplaneFlightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Airplane
+        fields = (
+            "name",
+            "capacity",
+        )
 
 
 class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
-        fields = "__all__"
+        fields = ("id", "first_name", "last_name")
 
 
 class FlightSerializer(serializers.ModelSerializer):
-    airplane = AirplaneSerializer(many=False)
-    route = RouteSerializer(many=False)
+    airplane = AirplaneFlightSerializer(many=False)
+    route = RouteFlightSerializer(many=False)
+    crew = serializers.SerializerMethodField()
 
     class Meta:
         model = Flight
-        fields = ("id", "airplane", "route", "departure_time", "arrival_time")
+        fields = ("id", "airplane", "route", "departure_time", "arrival_time", "crew")
+
+    def get_crew(self, obj):
+        crew_members = obj.crew.all()
+        crew_names = [f"{crew.first_name} {crew.last_name}" for crew in crew_members]
+        return crew_names
 
 
 class TicketSeatsSerializer(serializers.ModelSerializer):
