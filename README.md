@@ -1,8 +1,16 @@
 # Airport Service API DRF Project
+___
 
 Django REST Framework Project for Airport Service
 
 ## Installing via GitHub
+___
+
+- Python 3 must be installed
+- Create .evn while using .env.sample
+- Specify `DB_TYPE=sqlite` to be able to run localy
+
+- Run these commands:
 ```shell
 git clone https://github.com/eduardhabryd/airport-service-drf-project.git
 cd airport-service-drf-project
@@ -14,7 +22,17 @@ python manage.py loaddata data.json # to load test data
 python manage.py runserver
 ```
 
+## Run with Docker
+___
+
+- Docker should be installed. You can install it [here](https://www.docker.com/products/docker-desktop)
+- Run this command:
+```shell
+docker-compose up --build
+```
+
 ## Access Details
+___
 
 Test User:
 ```
@@ -63,15 +81,15 @@ ___
 - Filtering on source and destination for Flights
 
 ## DB Structure:
-![DB Structure](db_structure.png)
+![DB Structure](demo/db_structure.png)
 
 
 ## Demo
 ___
 ### Admin API Root
-![Admin API Root](admin_api_root_view.png)
+![Admin API Root](demo/admin_api_root_view.png)
 ### Anonim API Root
-![Anonim API Root](anonim_api_root_view.png)
+![Anonim API Root](demo/anonim_api_root_view.png)
 ### Authenticated API Root
 ![Auth API Root](user_api_root_view.png)
 ### Flight List
