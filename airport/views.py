@@ -78,10 +78,10 @@ class RouteViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return RouteCreateSerializer
-        
+
         if self.action == "retrieve":
             return RouteDetailSerializer
-        
+
         return self.serializer_class
 
 

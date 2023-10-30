@@ -29,14 +29,18 @@ class RouteDetailSerializer(serializers.ModelSerializer):
 
 
 class RouteListSerializer(serializers.ModelSerializer):
-    source_city = serializers.StringRelatedField(read_only=True, source="source.closest_big_city")
-    destination_city = serializers.StringRelatedField(read_only=True, source="destination.closest_big_city")
+    source_city = serializers.StringRelatedField(
+        read_only=True, source="source.closest_big_city"
+    )
+    destination_city = serializers.StringRelatedField(
+        read_only=True, source="destination.closest_big_city"
+    )
 
     class Meta:
         model = Route
         fields = ("id", "source_city", "destination_city", "distance")
 
-   
+
 class RouteFlightSerializer(RouteListSerializer):
     class Meta:
         model = Route
@@ -66,7 +70,8 @@ class AirplaneSerializer(serializers.ModelSerializer):
             "airplane_type",
             "capacity",
         )
-        
+
+
 class AirplaneFlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Airplane
@@ -89,11 +94,20 @@ class FlightSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Flight
-        fields = ("id", "airplane", "route", "departure_time", "arrival_time", "crew")
+        fields = (
+            "id",
+            "airplane",
+            "route",
+            "departure_time",
+            "arrival_time",
+            "crew",
+        )
 
     def get_crew(self, obj):
         crew_members = obj.crew.all()
-        crew_names = [f"{crew.first_name} {crew.last_name}" for crew in crew_members]
+        crew_names = [
+            f"{crew.first_name} {crew.last_name}" for crew in crew_members
+        ]
         return crew_names
 
 
